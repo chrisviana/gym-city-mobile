@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       Academia CityClub
-      {/* <InstallAppBanner /> */}
+      <InstallAppBanner />
     </>
   );
 }
