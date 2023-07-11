@@ -2,23 +2,28 @@ import React, { useState, useEffect } from 'react';
 
 const InstallAppBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
     window.addEventListener('beforeinstallprompt', event => {
       event.preventDefault();
+      setDeferredPrompt(event);
       setShowBanner(true);
     });
   }, []);
 
-  const handleInstallClick = async () => {
-    const deferredPrompt = await window.deferredPrompt;
+  const handleInstallClick = () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
-      const result = await deferredPrompt.userChoice;
-      if (result.outcome === 'accepted') {
-        setShowBanner(false);
-      }
-      deferredPrompt = null;
+      deferredPrompt.userChoice.then(choiceResult => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('O aplicativo foi instalado');
+          setShowBanner(false);
+        } else {
+          console.log('O usuário optou por não instalar o aplicativo');
+        }
+        setDeferredPrompt(null);
+      });
     }
   };
 
