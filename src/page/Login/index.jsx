@@ -3,7 +3,7 @@ import { ButtonContainer, Container, Content, FormLogin } from './style'
 import Logo from '../../assets/Logo.png'
 
 //import { AuthContext } from '../../contexts/AuthContext'
-import { toast } from 'react-toastify'
+//import { toast } from 'react-toastify'
 
 export function Login() {
  // const { signIn } = useContext(AuthContext)
@@ -22,23 +22,23 @@ export function Login() {
   const handleLogin = (e) => {
     e.preventDefault()
     if (email === '' || password === '') {
-      toast.warning('Preencha todos os campos')
+      //toast.warning('Preencha todos os campos')
       return
     }
 
-    signIn(email, password)
+    // signIn(email, password)
     
   }
 
   return (
     <Container>
       <Content>
-        <img src={Logo} alt="Logo Academia" />
+        <img src={Logo} alt="Logo Academia" width={370}/>
         <FormLogin>
           <span>Acesse sua conta</span>
           <input
             type="text"
-            placeholder="E-mail"
+            placeholder="Título"
             onChange={handleEmailChange}
           />
           <input

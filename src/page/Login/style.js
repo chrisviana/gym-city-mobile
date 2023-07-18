@@ -16,7 +16,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 552px;
+  max-width: 390px;
   height: 561px;
 `;
 export const FormLogin = styled.form`
@@ -36,7 +36,7 @@ export const FormLogin = styled.form`
   input {
     color: var(--white);
     height: 82px;
-    width: 509px;
+    width: 370px;
     border-radius: 6px;
     background-color: var(--input-color);
     border: none;
@@ -45,7 +45,7 @@ export const FormLogin = styled.form`
 `;
 
 export const ButtonContainer = styled.button`
-  width: 509px;
+  width: 370px;
   height: 82px;
   background-color: #00875f;
   color: #ffffff;
