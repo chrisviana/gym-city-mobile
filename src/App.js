@@ -1,11 +1,12 @@
 import "./App.css";
 import InstallAppBanner from "./components/InstallAppBanner";
+import { Login } from "./page/Login";
 
 function App() {
   return (
     <>
-      Academia CityClub
-      <InstallAppBanner />
+     <Login />
+      
     </>
   );
 }
