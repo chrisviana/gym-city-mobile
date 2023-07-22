@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react'
 import { ButtonContainer, Container, Content, FormLogin } from './style'
 import Logo from '../../assets/Logo.png'
 
-//import { AuthContext } from '../../contexts/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext'
 //import { toast } from 'react-toastify'
 
 export function Login() {
- // const { signIn } = useContext(AuthContext)
+ const { signIn } = useContext(AuthContext)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,12 +21,7 @@ export function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    if (email === '' || password === '') {
-      //toast.warning('Preencha todos os campos')
-      return
-    }
-
-    // signIn(email, password)
+        signIn(email, password)
     
   }
 

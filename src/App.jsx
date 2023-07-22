@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import InstallAppBanner from "./components/InstallAppBanner";
-import {Login} from './Page/Login'
-
-const App = () => {
+import { BrowserRouter } from "react-router-dom";
+import { Router } from "./Router";
+import { AuthProvider } from "./contexts/AuthContext";
+function App() {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
