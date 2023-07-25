@@ -1,9 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "./Page/Login";
 import { Treino } from "./Page/Treino";
-
-
-
+import { TreinoProvaider } from "./contexts/TrinoContext";
 
 export function Router() {
   function PrivateRoute({ children }) {
@@ -14,7 +12,14 @@ export function Router() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/treino" element={<Treino />} />
+      <Route
+        path="/treino"
+        element={
+          <TreinoProvaider>
+            <Treino />
+          </TreinoProvaider>
+        }
+      />
     </Routes>
   );
 }

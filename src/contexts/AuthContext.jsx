@@ -42,13 +42,11 @@ const AuthProvider = ({ children }) => {
   const signIn = async (usuario) => {
     try {
 
-      console.log("usuario: ", usuario);
       const treinoQuery = query(collection(firestore, "treinos"), where("usuario", "==", usuario));
       const treinoSnapshot = await getDocs(treinoQuery);
     
       if (!treinoSnapshot.empty) {
         const treinoDocs = treinoSnapshot.docs.map((doc) => doc.data());
-        console.log(treinoDocs);
         localStorage.setItem("treino", JSON.stringify(treinoDocs))
         navigate("/treino");
 

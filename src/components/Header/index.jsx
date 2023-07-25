@@ -1,14 +1,12 @@
 import { Button, Container, Name } from "./style";
 
-export function Header() {
-
-  const objTreino = JSON.parse(localStorage.getItem("treino"))
+export function Header({aluno}) {
 
   return (
     <Container>
       <Name>
         <p>Olá</p>
-        <span>{objTreino[0].aluno}</span>
+        <span>{aluno}</span>
       </Name>
       <Button>
           <svg
