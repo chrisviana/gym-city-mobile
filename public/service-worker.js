@@ -1,13 +1,5 @@
-self.addEventListener("install", (event) => {
-  console.log("Service Worker instalado com sucesso!");
-});
-
 self.addEventListener("activate", (event) => {
   console.log("Service Worker ativado com sucesso!");
-});
-
-self.addEventListener("fetch", (event) => {
-  console.log("Service Worker interceptou uma requisição:", event.request.url);
 });
 
 self.addEventListener("install", (event) => {
@@ -23,6 +15,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  console.log("Service Worker interceptou uma requisição:", event.request.url);
   event.respondWith(
     caches.match(event.request).then((response) => {
       return response || fetch(event.request);

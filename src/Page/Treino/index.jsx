@@ -9,7 +9,7 @@ export function Treino() {
   const exercicios = treino[0].exercicios;
 
   // Estado para controlar o selectTab selecionado
-  const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedTab, setSelectedTab] = useState('treinoA');
   const [isLoading, setIsLoading] = useState(true);
 
   // Objeto para armazenar os exercícios agrupados por selectTab
