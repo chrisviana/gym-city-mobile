@@ -6,9 +6,12 @@ export const ListExericio = styled.div`
 
 export const ContentButton = styled.div`
   display: flex;
-  overflow-x: auto; /* Ou "scroll" para habilitar a rolagem */
+  overflow-x: auto;
   white-space: nowrap;
-  max-width: 250px; /* Impede que os botões quebrem para a próxima linha */
+  max-width: 325px;
+  justify-content: start;
+  margin: 2rem;
+  gap: 1rem;
 `;
 export const Button = styled.button`
   width: 6rem;
