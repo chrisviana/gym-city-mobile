@@ -1,15 +1,16 @@
 import { useState, useContext, useEffect } from "react";
 import { Header } from "../../components/Header";
 import { TreinoContext } from "../../contexts/TrinoContext";
-import { Button, ContentButton, ListExericio } from "./style";
+import { Button, Card, ContentButton, ListExericio, Spinner } from "./style";
 
 export function Treino() {
   const { getExercicioTreinoById } = useContext(TreinoContext);
   const treino = JSON.parse(localStorage.getItem("treino"));
   const exercicios = treino[0].exercicios;
-  console.log(exercicios)
+
   // Estado para controlar o selectTab selecionado
   const [selectedTab, setSelectedTab] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Objeto para armazenar os exercícios agrupados por selectTab
   const [exerciciosAgrupados, setExerciciosAgrupados] = useState({});
@@ -22,7 +23,6 @@ export function Treino() {
       // Para cada exercício, obter o treino e agrupar pelo selectTab
       for (const id of exercicios) {
         const treino = await getExercicioTreinoById(id);
-        console.log('treino: ', treino)
         const selectTab = treino.selectTab;
         if (!exerciciosAgrupadosTemp[selectTab]) {
           exerciciosAgrupadosTemp[selectTab] = [treino];
@@ -32,6 +32,7 @@ export function Treino() {
       }
 
       setExerciciosAgrupados(exerciciosAgrupadosTemp);
+      setIsLoading(false);
     };
 
     agruparExercicios();
@@ -45,27 +46,41 @@ export function Treino() {
   return (
     <div>
       <Header aluno={treino[0].aluno} />
+      {isLoading ? ( // Mostrar "loading" enquanto isLoading for true
+          <Spinner />
+        ) : (
+          <>
+            <ContentButton>
+              {Object.keys(exerciciosAgrupados).map((selectTab) => (
+                <Button key={selectTab} onClick={() => handleTabClick(selectTab)}  selected={selectTab === selectedTab}>
+                  {selectTab === 'treinoA' ? 'Treino A': ''}
+                  {selectTab === 'treinoB' ? 'Treino B': ''}
+                  {selectTab === 'treinoC' ? 'Treino C': ''}
+                  {selectTab === 'treinoD' ? 'Treino D': ''}
+                  {selectTab === 'treinoE' ? 'Treino E': ''}
+                </Button>
+              ))}
+            </ContentButton>
 
-      {/* Renderizar os botões para cada selectTab */}
-      <ContentButton>
-        {Object.keys(exerciciosAgrupados).map((selectTab) => (
-          <Button key={selectTab} onClick={() => handleTabClick(selectTab)}>
-            {selectTab}
-          </Button>
-        ))}
-      </ContentButton>
-
-      {/* Renderizar os exercícios associados ao selectTab selecionado */}
-      <ListExericio>
-        {selectedTab && exerciciosAgrupados[selectedTab]?.map((treino) => (
-          <div key={treino.id}>
-            {/* Renderize os detalhes do exercício aqui */}
-            <p>Nome: {treino.exercicio}</p>
-            <p>Séries: {treino.series}</p>
-            {/* Outras informações sobre o exercício */}
-          </div>
-        ))}
-      </ListExericio>
+            <ListExericio>
+             
+              <p style={{ color: "#C4C4CC"}}>Exercícios</p>
+              
+              {selectedTab && exerciciosAgrupados[selectedTab]?.map((treino) => (
+                <Card key={treino.id}>
+                  {/* Renderize os detalhes do exercício aqui */}
+                  <span><strong>{treino.exercicio}</strong></span>
+                  <div style={{display: "flex", gap: '0.5rem'}}>
+                    <p> {treino.series} Séries</p> <p> {treino.reptemp} Repetições</p>
+                  </div>
+                  
+                  <p> {treino.descanso}' de descanso</p>
+                  {/* Outras informações sobre o exercício */}
+                </Card>
+              ))}
+            </ListExericio>
+          </>
+        )}
     </div>
   );
 }

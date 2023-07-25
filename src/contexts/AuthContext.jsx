@@ -46,6 +46,7 @@ const AuthProvider = ({ children }) => {
       const treinoSnapshot = await getDocs(treinoQuery);
     
       if (!treinoSnapshot.empty) {
+        
         const treinoDocs = treinoSnapshot.docs.map((doc) => doc.data());
         localStorage.setItem("treino", JSON.stringify(treinoDocs))
         navigate("/treino");
