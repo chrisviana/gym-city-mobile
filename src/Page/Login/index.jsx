@@ -9,20 +9,13 @@ export function Login() {
  const { signIn } = useContext(AuthContext)
 
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
   const handleEmailChange = (event) => {
     setEmail(event.target.value)
   }
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
-
   const handleLogin = (e) => {
     e.preventDefault()
-        signIn(email, password)
-    
+        signIn(email)
   }
 
   return (
@@ -30,16 +23,11 @@ export function Login() {
       <Content>
         <img src={Logo} alt="Logo Academia" width={370}/>
         <FormLogin>
-          <span>Acesse sua conta</span>
+          <span>Acesse seu treino</span>
           <input
             type="text"
             placeholder="Título"
             onChange={handleEmailChange}
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-            onChange={handlePasswordChange}
           />
           <ButtonContainer onClick={handleLogin}>Acessar</ButtonContainer>
         </FormLogin>

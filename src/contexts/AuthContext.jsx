@@ -40,7 +40,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const signIn = async (usuario) => {
-    console.log('aqui')
     try {
 
       console.log("usuario: ", usuario);
