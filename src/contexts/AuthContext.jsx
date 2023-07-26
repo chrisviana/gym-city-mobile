@@ -54,7 +54,9 @@ const AuthProvider = ({ children }) => {
         
         navigate("/treino");
       } else {
-        return null;
+        toast.warning("Sócio não encontrado ou verifique sua conexão", {
+          position: toast.POSITION.TOP_CENTER
+        });
       }
     } catch (err) {
      console.log(err);
