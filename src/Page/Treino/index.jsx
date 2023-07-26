@@ -4,13 +4,14 @@ import { TreinoContext } from "../../contexts/TrinoContext";
 import { Button, Card, ContentButton, ListExericio, Spinner } from "./style";
 
 export function Treino() {
-  const { getExercicioTreinoById } = useContext(TreinoContext);
+  const { getExercicioTreinoById, buscaTreinoAtualizado } = useContext(TreinoContext);
   const treino = JSON.parse(localStorage.getItem("treino"));
   const exercicios = treino[0].exercicios;
-
+  
   // Estado para controlar o selectTab selecionado
   const [selectedTab, setSelectedTab] = useState('treinoA');
   const [isLoading, setIsLoading] = useState(true);
+ 
 
   // Objeto para armazenar os exercícios agrupados por selectTab
   const [exerciciosAgrupados, setExerciciosAgrupados] = useState({});
@@ -36,16 +37,20 @@ export function Treino() {
     };
 
     agruparExercicios();
-  }, []);
+  }, [treino]);
 
   // Função para lidar com o clique em um botão de selectTab
   const handleTabClick = (selectTab) => {
     setSelectedTab(selectTab);
   };
 
+  const atualizarTreino = () => {
+    buscaTreinoAtualizado(treino[0].usuario)
+  }
+
   return (
     <div>
-      <Header aluno={treino[0].aluno} />
+      <Header aluno={treino[0].aluno} atualizarTreino={atualizarTreino} />
       {isLoading ? ( // Mostrar "loading" enquanto isLoading for true
           <Spinner />
         ) : (

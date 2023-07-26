@@ -1,6 +1,13 @@
+import { useContext } from "react";
 import { Button, Container, Name } from "./style";
+import { AuthContext } from "../../contexts/AuthContext";
+import imgRestart from "../../assets/restart.svg";
+export function Header({ aluno, atualizarTreino }) {
+  const { signOut } = useContext(AuthContext);
 
-export function Header({aluno}) {
+  function sairDoApp() {
+    signOut();
+  }
 
   return (
     <Container>
@@ -8,7 +15,11 @@ export function Header({aluno}) {
         <p>Olá</p>
         <span>{aluno}</span>
       </Name>
-      <Button>
+      <div>
+        <Button onClick={atualizarTreino}>
+          <img src={imgRestart} alt="update" width={28} />
+        </Button>
+        <Button onClick={sairDoApp}>
           <svg
             width="28"
             height="28"
@@ -36,6 +47,7 @@ export function Header({aluno}) {
             />
           </svg>
         </Button>
+      </div>
     </Container>
-  )
+  );
 }

@@ -18,6 +18,7 @@ import {
   where,
   getDoc,
 } from "firebase/firestore"
+import { toast } from "react-toastify";
 
 const AuthContext = createContext({});
 
@@ -31,11 +32,9 @@ const AuthProvider = ({ children }) => {
 
   const signOut = () => {
     try {
-      // destroyCookie(undefined, "@gymcityauth.token");
-      localStorage.removeItem("@gymcityauth.token");
+      localStorage.removeItem("treino");
       navigate("/");
     } catch {
-      // toast.error("Erro ao deslogar");
     }
   };
 
@@ -46,30 +45,17 @@ const AuthProvider = ({ children }) => {
       const treinoSnapshot = await getDocs(treinoQuery);
     
       if (!treinoSnapshot.empty) {
-        
+        toast.success("Logado com sucesso", {
+          position: toast.POSITION.TOP_CENTER
+        });
+
         const treinoDocs = treinoSnapshot.docs.map((doc) => doc.data());
         localStorage.setItem("treino", JSON.stringify(treinoDocs))
-        navigate("/treino");
-
-        // if (treinoDocs) {
-        //   setCookie(undefined, "@gymcityauth.token", accessToken, {
-        //     maxAge: 60 * 60 * 24 * 30,
-        //     path: "/",
-        //   });
-  
-        //   localStorage.setItem("@gymcityauth.token", accessToken);
-  
-  
-        //   toast.success("Logado com sucesso");
         
-        // } else {
-        //   toast.error("E-mail ou Senha inválidos");
-        // }
+        navigate("/treino");
       } else {
         return null;
       }
-
-      
     } catch (err) {
      console.log(err);
     }
