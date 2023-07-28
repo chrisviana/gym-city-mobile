@@ -1,10 +1,23 @@
+const CACHE_VERSION = "v1";
+const CACHE_NAME = `my-app-cache-${CACHE_VERSION}`;
+
 self.addEventListener("activate", (event) => {
-  console.log("Service Worker ativado com sucesso!");
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
 });
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open("my-app-cache").then((cache) => {
+    caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll([
         "./",
         "index.html",
@@ -15,10 +28,28 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  console.log("Service Worker interceptou uma requisição:", event.request.url);
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      // Responder com cache, se disponível
+      if (response) {
+        return response;
+      }
+
+      // Caso contrário, buscar a requisição da rede
+      return fetch(event.request).then((response) => {
+        // Se a resposta for bem-sucedida, cloná-la para poder armazená-la em cache
+        if (!response || response.status !== 200 || response.type !== "basic") {
+          return response;
+        }
+
+        const responseToCache = response.clone();
+
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return response;
+      });
     })
   );
 });
