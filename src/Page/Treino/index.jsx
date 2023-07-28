@@ -7,7 +7,7 @@ export function Treino() {
   const { getExercicioTreinoById, buscaTreinoAtualizado } = useContext(TreinoContext);
   const [treino, setTreino] = useState()
   const [selectedTab, setSelectedTab] = useState('treinoA');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [exerciciosAgrupados, setExerciciosAgrupados] = useState({});
 
   useEffect(() => {
@@ -18,6 +18,7 @@ export function Treino() {
   },[])
 
   useEffect(() => {
+    setIsLoading(true)
     if (treino !== null) {
       const agruparExercicios = async () => {
         const exerciciosAgrupadosTemp = {};
@@ -35,7 +36,7 @@ export function Treino() {
         }
 
         setExerciciosAgrupados(exerciciosAgrupadosTemp);
-        setIsLoading(false);
+        setIsLoading(false)
       };
 
       agruparExercicios();
@@ -44,12 +45,17 @@ export function Treino() {
 
   const atualizarTreino = () => {
     buscaTreinoAtualizado(treino.usuario)
+    const jsonTreino = JSON.parse(localStorage.getItem("treino"));
+    if (jsonTreino.length > 0) {
+      setTreino(jsonTreino[0])
+    }
   }
 
   const handleTabClick = (selectTab) => {
     setSelectedTab(selectTab);
   };
- 
+  
+
   return (
     <div>
         <Header aluno={treino?.aluno} atualizarTreino={atualizarTreino} />

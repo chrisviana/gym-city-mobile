@@ -8,15 +8,9 @@ import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
   collection,
-  addDoc,
-  setDoc,
-  doc,
   getDocs,
-  deleteDoc,
-  updateDoc,
   query,
   where,
-  getDoc,
 } from "firebase/firestore"
 import { toast } from "react-toastify";
 
