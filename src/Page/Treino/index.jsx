@@ -5,52 +5,54 @@ import { Button, Card, ContentButton, ListExericio, Spinner } from "./style";
 
 export function Treino() {
   const { getExercicioTreinoById, buscaTreinoAtualizado } = useContext(TreinoContext);
-  const treino = JSON.parse(localStorage.getItem("treino"));
-  const exercicios = treino[0].exercicios;
-  
-  // Estado para controlar o selectTab selecionado
+  const [treino, setTreino] = useState()
   const [selectedTab, setSelectedTab] = useState('treinoA');
   const [isLoading, setIsLoading] = useState(true);
- 
-
-  // Objeto para armazenar os exercícios agrupados por selectTab
   const [exerciciosAgrupados, setExerciciosAgrupados] = useState({});
 
   useEffect(() => {
-    // Função para agrupar os exercícios por selectTab
-    const agruparExercicios = async () => {
-      const exerciciosAgrupadosTemp = {};
+    const jsonTreino = JSON.parse(localStorage.getItem("treino"));
+    if (jsonTreino.length > 0) {
+      setTreino(jsonTreino[0])
+    }
+  },[])
 
-      // Para cada exercício, obter o treino e agrupar pelo selectTab
-      for (const id of exercicios) {
-        const treino = await getExercicioTreinoById(id);
-        const selectTab = treino.selectTab;
-        if (!exerciciosAgrupadosTemp[selectTab]) {
-          exerciciosAgrupadosTemp[selectTab] = [treino];
-        } else {
-          exerciciosAgrupadosTemp[selectTab].push(treino);
+  useEffect(() => {
+    if (treino !== null) {
+      const agruparExercicios = async () => {
+        const exerciciosAgrupadosTemp = {};
+        // Check if isTreino[0].exercicios is valid before proceeding
+        if (Array.isArray(treino?.exercicios)) {
+          for (const id of treino?.exercicios) {
+            const treino = await getExercicioTreinoById(id);
+            const selectTab = treino?.selectTab;
+            if (!exerciciosAgrupadosTemp[selectTab]) {
+              exerciciosAgrupadosTemp[selectTab] = [treino];
+            } else {
+              exerciciosAgrupadosTemp[selectTab].push(treino);
+            }
+          }
         }
-      }
 
-      setExerciciosAgrupados(exerciciosAgrupadosTemp);
-      setIsLoading(false);
-    };
+        setExerciciosAgrupados(exerciciosAgrupadosTemp);
+        setIsLoading(false);
+      };
 
-    agruparExercicios();
+      agruparExercicios();
+    }
   }, [treino]);
 
-  // Função para lidar com o clique em um botão de selectTab
+  const atualizarTreino = () => {
+    buscaTreinoAtualizado(treino.usuario)
+  }
+
   const handleTabClick = (selectTab) => {
     setSelectedTab(selectTab);
   };
-
-  const atualizarTreino = () => {
-    buscaTreinoAtualizado(treino[0].usuario)
-  }
-
+ 
   return (
     <div>
-      <Header aluno={treino[0].aluno} atualizarTreino={atualizarTreino} />
+        <Header aluno={treino?.aluno} atualizarTreino={atualizarTreino} />
       {isLoading ? ( // Mostrar "loading" enquanto isLoading for true
           <Spinner />
         ) : (
