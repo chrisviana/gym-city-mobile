@@ -36,7 +36,7 @@ export const FormLogin = styled.form`
   input {
     color: var(--white);
     height: 82px;
-    width: 370px;
+    width: 350px;
     border-radius: 6px;
     background-color: var(--input-color);
     border: none;
@@ -45,7 +45,7 @@ export const FormLogin = styled.form`
 `;
 
 export const ButtonContainer = styled.button`
-  width: 370px;
+  width: 350px;
   height: 82px;
   background-color: #00875f;
   color: #ffffff;

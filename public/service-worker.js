@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v7";
 const CACHE_NAME = `my-app-cache-${CACHE_VERSION}`;
 
 self.addEventListener("activate", (event) => {
@@ -52,4 +52,17 @@ self.addEventListener("fetch", (event) => {
       });
     })
   );
+});
+
+// Registrar o Service Worker com a opção updateViaCache
+navigator.serviceWorker.register("service-worker.js", {
+  updateViaCache: "all",
+});
+
+// Evento de atualização do Service Worker
+self.addEventListener("update", (event) => {
+  // Aqui você pode executar qualquer ação necessária quando ocorre uma atualização do Service Worker.
+  // Por exemplo, você pode limpar caches específicos ou realizar outras tarefas de atualização.
+  window.location.reload(true);
+  console.log("Service Worker atualizado!");
 });

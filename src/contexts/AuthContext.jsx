@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
 
   const signIn = async (usuario) => {
     try {
-
+      console.log(usuario);
       const treinoQuery = query(collection(firestore, "treinos"), where("usuario", "==", usuario));
       const treinoSnapshot = await getDocs(treinoQuery);
     
@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
         
         navigate("/treino");
       } else {
-        toast.warning("Sócio não encontrado ou verifique sua conexão", {
+        toast.warning("Sócio não encontrado ou Treino não cadastrado", {
           position: toast.POSITION.TOP_CENTER
         });
       }

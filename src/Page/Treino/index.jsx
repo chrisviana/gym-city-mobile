@@ -43,8 +43,8 @@ export function Treino() {
     }
   }, [treino]);
 
-  const atualizarTreino = () => {
-    buscaTreinoAtualizado(treino.usuario)
+  const atualizarTreino = async () => {
+    await buscaTreinoAtualizado(treino.usuario)
     const jsonTreino = JSON.parse(localStorage.getItem("treino"));
     if (jsonTreino.length > 0) {
       setTreino(jsonTreino[0])
@@ -64,15 +64,18 @@ export function Treino() {
         ) : (
           <>
             <ContentButton>
-              {Object.keys(exerciciosAgrupados).map((selectTab) => (
-                <Button key={selectTab} onClick={() => handleTabClick(selectTab)}  selected={selectTab === selectedTab}>
-                  {selectTab === 'treinoA' ? 'Treino A': ''}
-                  {selectTab === 'treinoB' ? 'Treino B': ''}
-                  {selectTab === 'treinoC' ? 'Treino C': ''}
-                  {selectTab === 'treinoD' ? 'Treino D': ''}
-                  {selectTab === 'treinoE' ? 'Treino E': ''}
-                </Button>
-              ))}
+            {Object.keys(exerciciosAgrupados)
+  .sort() // Ordenar as chaves em ordem alfabética
+  .map((selectTab) => (
+    <Button
+      key={selectTab}
+      onClick={() => handleTabClick(selectTab)}
+      selected={selectTab === selectedTab}
+    >
+      {/* Converter selectTab para um formato mais legível */}
+      {selectTab.replace('treino', 'Treino ')}
+    </Button>
+  ))}
             </ContentButton>
 
             <ListExericio>
