@@ -17,15 +17,21 @@ export function Treino() {
     }
   },[])
 
+  function compararPorDataHora(a, b) {
+    const aSeconds = a.dataHora?.seconds || 0;
+    const bSeconds = b.dataHora?.seconds || 0;
+    return aSeconds - bSeconds;
+  }
+
   useEffect(() => {
     setIsLoading(true)
     if (treino !== null) {
       const agruparExercicios = async () => {
         const exerciciosAgrupadosTemp = {};
-        // Check if isTreino[0].exercicios is valid before proceeding
         if (Array.isArray(treino?.exercicios)) {
           for (const id of treino?.exercicios) {
             const treino = await getExercicioTreinoById(id);
+           
             const selectTab = treino?.selectTab;
             if (!exerciciosAgrupadosTemp[selectTab]) {
               exerciciosAgrupadosTemp[selectTab] = [treino];
@@ -35,6 +41,10 @@ export function Treino() {
           }
         }
 
+        for (const selectTab in exerciciosAgrupadosTemp) {
+          exerciciosAgrupadosTemp[selectTab].sort(compararPorDataHora);
+        }
+        
         setExerciciosAgrupados(exerciciosAgrupadosTemp);
         setIsLoading(false)
       };
@@ -79,8 +89,8 @@ export function Treino() {
             </ContentButton>
 
             <ListExericio>
-             
-              <p style={{ color: "#C4C4CC"}}>Exercícios</p>
+              <p> <strong>Observações:</strong> {treino?.observacoes}</p>
+              <p style={{ color: "#C4C4CC", marginTop: "10px"}}>Exercícios</p>
               
               {selectedTab && exerciciosAgrupados[selectedTab]?.map((treino) => (
                 <Card key={treino.id}>

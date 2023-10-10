@@ -15,6 +15,18 @@ const TreinoContext = createContext({});
 const TreinoProvaider = ({ children }) => {
   const firestore = getFirestore(app);
 
+  const getTreinoByUsuario = async (usuario) => {
+    const treinoRef = doc(firestore, "treinos", usuario);
+    const treinoDoc = await getDoc(treinoRef);
+
+    if (treinoDoc.exists()) {
+      const treinoData = treinoDoc.data();
+      return treinoData;
+    } else {
+      return null;
+    }
+  };
+
   const getExercicioTreinoById = async (id) => {
     const treinoRef = doc(firestore, "exercicioTreino", id);
     const treinoDoc = await getDoc(treinoRef);
@@ -48,7 +60,8 @@ const TreinoProvaider = ({ children }) => {
 
   const authContextData = {
     getExercicioTreinoById,
-    buscaTreinoAtualizado
+    buscaTreinoAtualizado,
+    getTreinoByUsuario
 
   };
 

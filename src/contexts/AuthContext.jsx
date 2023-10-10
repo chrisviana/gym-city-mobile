@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
 
   const signIn = async (usuario) => {
     try {
-      console.log(usuario);
+
       const treinoQuery = query(collection(firestore, "treinos"), where("usuario", "==", usuario));
       const treinoSnapshot = await getDocs(treinoQuery);
     
